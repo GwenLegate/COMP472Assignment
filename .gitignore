@@ -2,3 +2,5 @@ venv/
 Assig1-Dataset/*
 .vscode/*
 requirements.txt
+__pycache__/*
+.idea/*
