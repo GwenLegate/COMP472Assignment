@@ -37,5 +37,6 @@ fig.suptitle('Distribution of Instances in Greek and Latin Alphabet Datasets')
 axs[0].bar(lx, ly, color="orange")
 axs[1].bar(gx, gy, color="green")
 plt.xticks(fontsize=10, rotation=36)
+plt.savefig("InitialGraph.png")
 plt.show()
 
