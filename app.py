@@ -2,7 +2,7 @@ from basedt import *
 from num_instances import *
 
 def main():
-    graph_initial_values()
+    #graph_initial_values()
     run_base_tree()
 
 
