@@ -13,33 +13,20 @@ greek_x, greek_y = greek_train[:, :-1], greek_train[:, -1]
 test_latin_x, test_latin_y = latin_test[:, :-1], latin_test[:, -1]
 test_greek_x, test_greek_y = greek_test[:, :-1], greek_test[:, -1]
 
-'''GNB model config'''
-gnb_model = nb.GaussianNB()
+# flag to set which dataset to use
+DATASET = 2
+'''run one model at a time'''
+if(DATASET == 1):
+    gnb_model = nb.GaussianNB()
+    gnb_model.fit(latin_x, latin_y)
+    latin_out = gnb_model.predict(test_latin_x)
+    help.convert_model_output_to_csv("GNB", "DS1", latin_out, test_latin_y)
+    print("latin alphabet for GNB model")
 
-'''train with latin dataset'''
-gnb_model.fit(latin_x, latin_y)
+if(DATASET == 2):
+    gnb_model = nb.GaussianNB()
+    gnb_model.fit(greek_x, greek_y)
+    greek_out = gnb_model.predict(test_greek_x)
+    help.convert_model_output_to_csv("GNB", "DS2", greek_out, test_greek_y)
+    print("greek alphabet for GNB model")
 
-'''test latin dataset'''
-latin_out = gnb_model.predict(test_latin_x)
-
-'''generate .csv with the necessary evaluation metrics'''
-help.convert_model_output_to_csv("GNB", "DS1", latin_out, test_latin_y)
-
-'''train with greek dataset'''
-gnb_model.fit(greek_x, greek_y)
-
-'''test latin dataset an compute metrics'''
-greek_out = gnb_model.predict(test_greek_x)
-
-'''confusion_greek = confusion_matrix(test_greek_y, greek_out)
-precision_greek = precision_score(test_greek_y, greek_out, average=None)
-recall_greek = recall_score(test_greek_y, greek_out, average=None)
-f1_greek = f1_score(test_greek_y, greek_out, average=None)
-f1_ma_greek = f1_score(test_greek_y, greek_out, average="macro")
-f1_wa_greek = f1_score(test_greek_y, greek_out, average="weighted")
-accuracy_greek = accuracy_score(test_greek_y, greek_out)
-
-instance_no = np.arange(1, len(greek_out))
-greek = np.vstack((instance_no, greek_out)).T'''
-
-help.convert_model_output_to_csv("GNB", "DS2", greek_out, test_greek_y)
