@@ -1,17 +1,13 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import constants
+import constants as c
 def graph_initial_values():
-    LATIN = "Assig1-Dataset/train_1.csv"
-    GREEK = "Assig1-Dataset/train_2.csv"
-    LATIN_KEY = "Assig1-Dataset/info_1.csv"
-    GREEK_KEY = "Assig1-Dataset/info_2.csv"
 
-    latin_key = pd.read_csv(LATIN_KEY, sep=',',skiprows=0).to_numpy()
-    greek_key = pd.read_csv(GREEK_KEY, sep=',',skiprows=0).to_numpy()
-    latin = pd.read_csv(LATIN, sep=',',header=None).to_numpy()
-    greek = pd.read_csv(GREEK, sep=',',header=None).to_numpy()
+    latin_key = pd.read_csv(c.LATIN_KEY, sep=',',skiprows=0).to_numpy()
+    greek_key = pd.read_csv(c.GREEK_KEY, sep=',',skiprows=0).to_numpy()
+    latin = pd.read_csv(c.FILE_TRAIN_LATIN, sep=',',header=None).to_numpy()
+    greek = pd.read_csv(c.FILE_TRAIN_GREEK, sep=',',header=None).to_numpy()
 
     latin_x, latin_y = latin[:, :-1], latin[:, -1]
     greek_x, greek_y = greek[:, :-1], greek[:, -1]

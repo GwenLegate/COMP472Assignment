@@ -1,6 +1,7 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, accuracy_score, f1_score
+
 def convert_csv_to_data_and_target(filename):
 
     raw_csv_nparray = pd.read_csv(filename, sep=',',header=None).to_numpy()
@@ -17,21 +18,23 @@ def convert_csv_to_data_and_target(filename):
 INPUTS:
 model_name: the name of the ML model
 dataset: the dataset used, DS1 for A-Z, DS2 for the greek letters 
-output: an (n,2) numpy array containing the test set instance line number and the model prediction
-confusion: the confusion matrix output
-precision: precision of each class class, an (n,) numpy array, where n is the number of classes in the dataset
-recall: recall of each class, an (n,) numpy array, where n is the number of classes in the dataset
-f1: the f1 measure of each class,  an (n,) numpy array, where n is the number of classes in the dataset
-accuracy: the accuracy of the model
-ma_f1: the macro-average f1 of the model
-wa_f1: the weighted-average f1 of the model
+out_model: numpy array containing the model prediction
+out_real: numpy array containing the real values of the test set
 '''
-def convert_model_output_to_csv(model_name, dataset, output, confusion, precision, recall, f1, accuracy, ma_f1, wa_f1):
-    pd.DataFrame(output).to_csv("csv_output/" + model_name + "-" + dataset + ".csv")
-    pd.Dataframe(confusion).to_csv("csv_output/" + model_name + "-" + dataset + ".csv", mode='a')
-    pd.Dataframe(precision).to_csv("csv_output/" + model_name + "-" + dataset + ".csv", mode='a')
-    pd.Dataframe(recall).to_csv("csv_output/" + model_name + "-" + dataset + ".csv", mode='a')
-    pd.Dataframe(f1).to_csv("csv_output/" + model_name + "-" + dataset + ".csv", mode='a')
-    model_eval_params = np.array([[accuracy], [ma_f1], [wa_f1]])
-    pd.Dataframe(model_eval_params).to_csv("csv_output/" + model_name + "-" + dataset + ".csv", mode='a')
 
+def convert_model_output_to_csv(model_name, dataset, out_model, out_real):
+    confusion = confusion_matrix(out_real, out_model)
+    precision = precision_score(out_real, out_model, average=None, zero_division=0)
+    recall = recall_score(out_real, out_model, average=None)
+    f1 = f1_score(out_real, out_model, average=None)
+    ma_f1 = f1_score(out_real, out_model, average="macro")
+    wa_f1 = f1_score(out_real, out_model, average="weighted")
+    accuracy = accuracy_score(out_real, out_model)
+
+    pd.DataFrame(out_model).to_csv("csv_output/" + model_name + "-" + dataset + ".csv")
+    pd.DataFrame(confusion).to_csv("csv_output/" + model_name + "-" + dataset + ".csv", mode='a')
+    pd.DataFrame(precision).to_csv("csv_output/" + model_name + "-" + dataset + ".csv", mode='a')
+    pd.DataFrame(recall).to_csv("csv_output/" + model_name + "-" + dataset + ".csv", mode='a')
+    pd.DataFrame(f1).to_csv("csv_output/" + model_name + "-" + dataset + ".csv", mode='a')
+    model_eval_params = np.array([[accuracy], [ma_f1], [wa_f1]])
+    pd.DataFrame(model_eval_params).to_csv("csv_output/" + model_name + "-" + dataset + ".csv", mode='a')
