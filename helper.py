@@ -3,7 +3,11 @@ import pandas as pd
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, accuracy_score, f1_score
 
 def convert_csv_to_data_and_target(filename):
-
+    '''convert csv into format 2d numpy array with the last number of each row removed and set as the target label
+    returns:
+    2dnumpy array: data - the 2d array with 0,1s representing the image
+    1d numpy array: target - the 1d array with the values corresponding to what each element in data should represent (labels of the data set)
+    '''
     raw_csv_nparray = pd.read_csv(filename, sep=',',header=None).to_numpy()
     target = []
     data=[]
