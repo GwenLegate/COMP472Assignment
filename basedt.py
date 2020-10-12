@@ -16,15 +16,17 @@ def run_base_tree():
     latin_test_data_labeled, latin_test_target_labeled = convert_csv_to_data_and_target(FILE_TEST_LABEL_LATIN)
     greek_test_data_labeled, greek_test_target_labeled = convert_csv_to_data_and_target(FILE_TEST_LABEL_GREEK)
 
-    test_tree(latin_base_tree, latin_test_data_labeled, latin_test_target_labeled)
-    test_tree(greek_base_tree, greek_test_data_labeled, greek_test_target_labeled)
+    latin_prediction = test_tree(latin_base_tree, latin_test_data_labeled, latin_test_target_labeled)
+    greek_prediction = test_tree(greek_base_tree, greek_test_data_labeled, greek_test_target_labeled)
+    
+    convert_model_output_to_csv("BASE-DT", "DS1", latin_prediction, latin_test_target_labeled)
+    convert_model_output_to_csv("BASE_DT", "DS2", greek_prediction, greek_test_target_labeled)
 
-    test_unlabled_latin = convert_csv_to_data_unlabeled(FILE_TEST_LATIN)
-    test_unlabled_greek = convert_csv_to_data_unlabeled(FILE_TEST_LABEL_GREEK)
+    # test_unlabled_latin = convert_csv_to_data_unlabeled(FILE_TEST_LATIN)
+    # test_unlabled_greek = convert_csv_to_data_unlabeled(FILE_TEST_LABEL_GREEK)
 
-    get_predictions_from_tree(latin_base_tree, test_unlabled_latin)
-    get_predictions_from_tree(greek_base_tree, test_unlabled_greek)
-
+    # get_predictions_from_tree(latin_base_tree, test_unlabled_latin)
+    # get_predictions_from_tree(greek_base_tree, test_unlabled_greek)
 def train_base_tree(data,target):   
     base_tree = DecisionTreeClassifier(criterion="entropy").fit(data, target)
     return base_tree
@@ -37,6 +39,7 @@ def test_tree(tree,data,target):
             total_right += 1 
         
     print("Percent Correct = ", total_right/len(target))
+    return prediction
 
 def get_predictions_from_tree(tree, data):
     prediction = tree.predict(data)

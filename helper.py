@@ -18,6 +18,10 @@ def convert_csv_to_data_and_target(filename):
     target = np.array(target)
     return data,target
 
+def convert_csv_to_data_unlabeled(filename):
+    raw_csv_nparray = pd.read_csv(filename, sep=',',header=None).to_numpy()
+    return raw_csv_nparray
+    
 ''' creates the *.csv files required for each model.
 INPUTS:
 model_name: the name of the ML model
