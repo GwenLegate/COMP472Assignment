@@ -3,7 +3,8 @@ from num_instances import *
 
 def main():
     #graph_initial_values()
-    run_base_tree()
+    #run_base_tree()
+    run_best_tree()
 
 
 
