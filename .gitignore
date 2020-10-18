@@ -4,3 +4,4 @@ Assig1-Dataset/*
 requirements.txt
 __pycache__/*
 .idea/*
+.DS_Store
