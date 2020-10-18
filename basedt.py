@@ -47,6 +47,9 @@ def run_best_tree():
     # get_predictions_from_tree(greek_base_tree, test_unlabled_greek)
 
 def train_base_tree(data,target):   
+    #base_tree = DecisionTreeClassifier(class_weight= None, criterion="entropy", max_depth= None, min_impurity_decrease= 0, min_samples_split= 2).fit(data, target)
+    #base_tree = DecisionTreeClassifier(class_weight= None, criterion="entropy", max_depth= None, min_impurity_decrease= 0, min_samples_split= 2).fit(data, target)
+    
     base_tree = DecisionTreeClassifier(criterion="entropy").fit(data, target)
     return base_tree
 def train_best_tree(data,target):
@@ -61,6 +64,8 @@ def train_best_tree(data,target):
     grid = GridSearchCV(base_tree,param_grid=param_dict, n_jobs=-1)
     grid.fit(data,target)
     print("Best Params: ",grid.best_params_)
+    best_param = grid.best_params_
+    best_tree = DecisionTreeClassifier(**best_param).fit(data, target)
     return grid
 def test_tree(tree,data,target):
     prediction = tree.predict(data)
